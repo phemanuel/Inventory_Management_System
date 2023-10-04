@@ -77,7 +77,7 @@ include('tradingheader_user.php');
                                      <th>Date</th>                                  
                                     <th>Status</th>
                                     <th></th>
-                                    <th></th>
+                                    
                                     
                                 </tr></thead>
                             </table>
