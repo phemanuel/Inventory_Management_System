@@ -3,9 +3,9 @@
 
 //$connect = new PDO('mysql:host=localhost;dbname=testing2', 'root', 'root1987');
  $servername = "localhost";
-$username = "eitccomn_eitcuser";
-$password = "eitccon231027";
-$dbname = "eitccomn_eitc";
+ $username = "root";
+ $password = "root1987";
+$dbname = "eitc";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);

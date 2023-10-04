@@ -1,3 +1,3 @@
 <script type="text/javascript">
-    window.location = "IMS/apps/";
+    window.location = "apps/";
 </script>
