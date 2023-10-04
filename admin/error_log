@@ -1,0 +1,29 @@
+[23-Mar-2022 12:36:30 UTC] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/uploadproduct1.php on line 197
+[23-Mar-2022 12:39:13 UTC] PHP Notice:  Undefined index: clientid in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/uploadproduct1.php on line 6
+[23-Mar-2022 12:39:13 UTC] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/uploadproduct1.php on line 197
+[23-Mar-2022 12:40:01 UTC] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/uploadproduct1.php on line 197
+[04-Jul-2022 02:44:18 UTC] PHP Notice:  Trying to get property of non-object in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/upgradeaccount1.php on line 71
+[04-Jul-2022 02:44:36 UTC] PHP Notice:  Undefined index: appabbrv in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/acctactivate2.php on line 5
+[04-Jul-2022 02:44:36 UTC] PHP Notice:  Undefined variable: clientid in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/acctactivate2.php on line 86
+[04-Jul-2022 02:44:36 UTC] PHP Notice:  Undefined variable: clientplan in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/acctactivate2.php on line 87
+[04-Jul-2022 02:44:36 UTC] PHP Notice:  Undefined variable: clienttype in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/acctactivate2.php on line 88
+[04-Jul-2022 02:44:36 UTC] PHP Notice:  Undefined variable: startdate in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/acctactivate2.php on line 89
+[23-Jan-2023 12:37:16 UTC] PHP Notice:  Undefined index: appabbrv in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/acctactivate2.php on line 5
+[23-Jan-2023 12:37:16 UTC] PHP Notice:  Undefined variable: clientid in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/acctactivate2.php on line 86
+[23-Jan-2023 12:37:16 UTC] PHP Notice:  Undefined variable: clientplan in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/acctactivate2.php on line 87
+[23-Jan-2023 12:37:16 UTC] PHP Notice:  Undefined variable: clienttype in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/acctactivate2.php on line 88
+[23-Jan-2023 12:37:16 UTC] PHP Notice:  Undefined variable: startdate in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/acctactivate2.php on line 89
+[23-Jan-2023 12:37:31 UTC] PHP Notice:  Undefined index: clientid in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/acctactivate3.php on line 8
+[23-Jan-2023 12:38:09 UTC] PHP Notice:  Trying to get property of non-object in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/upgradeaccount1.php on line 71
+[23-Jan-2023 12:38:25 UTC] PHP Notice:  Undefined index: appabbrv in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/acctactivate2.php on line 5
+[23-Jan-2023 12:38:25 UTC] PHP Notice:  Undefined variable: clientid in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/acctactivate2.php on line 86
+[23-Jan-2023 12:38:25 UTC] PHP Notice:  Undefined variable: clientplan in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/acctactivate2.php on line 87
+[23-Jan-2023 12:38:25 UTC] PHP Notice:  Undefined variable: clienttype in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/acctactivate2.php on line 88
+[23-Jan-2023 12:38:25 UTC] PHP Notice:  Undefined variable: startdate in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/acctactivate2.php on line 89
+[04-Apr-2023 11:57:30 UTC] PHP Notice:  Undefined index: appabbrv in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/acctactivate2.php on line 5
+[04-Apr-2023 11:57:30 UTC] PHP Notice:  Undefined variable: clientid in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/acctactivate2.php on line 86
+[04-Apr-2023 11:57:30 UTC] PHP Notice:  Undefined variable: clientplan in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/acctactivate2.php on line 87
+[04-Apr-2023 11:57:30 UTC] PHP Notice:  Undefined variable: clienttype in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/acctactivate2.php on line 88
+[04-Apr-2023 11:57:30 UTC] PHP Notice:  Undefined variable: startdate in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/acctactivate2.php on line 89
+[04-Apr-2023 11:59:32 UTC] PHP Notice:  Undefined index: appabbrv in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/acctactivate2.php on line 5
+[17-Jul-2023 08:35:57 UTC] PHP Notice:  Trying to get property of non-object in /home/eitccomn/IMS.eitc.com.ng/IMS/admin/upgradeaccount1.php on line 71
