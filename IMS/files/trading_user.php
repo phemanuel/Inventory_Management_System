@@ -43,7 +43,7 @@ else {
 //	header("location:index.php");
 //}
 
-include('tradingheader.php');
+include('tradingheader_user.php');
 
 
 ?>
@@ -194,7 +194,7 @@ $(document).ready(function(){
         "serverSide":true,
         "order":[],
         "ajax":{
-            url:"trading_fetch.php",
+            url:"trading_user_fetch.php",
             type:"POST"
         },
         "columnDefs":[
@@ -221,7 +221,7 @@ $(document).ready(function(){
         $('#action').attr('disabled', 'disabled');
         var form_data = $(this).serialize();
         $.ajax({
-            url:"trading_action.php",
+            url:"trading_user_action.php",
             method:"POST",
             data:form_data,
             success:function(data)
@@ -239,7 +239,7 @@ $(document).ready(function(){
         var product_id = $(this).attr("id");
         var btn_action = 'product_details';
         $.ajax({
-            url:"trading_action.php",
+            url:"trading_user_action.php",
             method:"POST",
             data:{product_id:product_id, btn_action:btn_action},
             success:function(data){
@@ -253,7 +253,7 @@ $(document).ready(function(){
         var product_id = $(this).attr("id");
         var btn_action = 'fetch_single';
         $.ajax({
-            url:"trading_action.php",
+            url:"trading_user_action.php",
             method:"POST",
             data:{product_id:product_id, btn_action:btn_action},
             dataType:"json",
@@ -284,7 +284,7 @@ $(document).ready(function(){
         if(confirm("Are you sure you want to change status?"))
         {
             $.ajax({
-                url:"trading_action1.php",
+                url:"trading_user_action.php",
                 method:"POST",
                 data:{product_id:product_id, status:status, btn_action:btn_action},
                 success:function(data){

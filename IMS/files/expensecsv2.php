@@ -7,9 +7,9 @@ $year1keep = $_SESSION['year1'];
 
 //Our MySQL connection details.
 $host = 'localhost';
-$user = 'eitccomn_eitcuser';
-$password = 'eitccon231027';
-$database = 'eitccomn_ims';
+$user = 'root';
+$password = 'root1987';
+$database = 'ims';
  
 //Connect to MySQL using PDO.
 $pdo = new PDO("mysql:host=$host;dbname=$database", $user, $password);

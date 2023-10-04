@@ -3,6 +3,7 @@
 
 $clientname = $_SESSION['clientname'];
 $clientname1 = strtoupper($clientname);
+$user_name = $_SESSION['user_name'];
 //header.php
 ?>
 <!DOCTYPE html>
@@ -28,9 +29,7 @@ $clientname1 = strtoupper($clientname);
 					</div>
 					<ul class="nav navbar-nav">
                     <li><a href="tradeid.php">New Trading </a></li>
-					<li><a href="trading_user.php">My Trading </a></li>
-											<li><a href="tprofitaccountcheck1.php">Profit Analysis </a></li>
-											<li><a href="edittrdcheck.php">Edit Transaction </a></li>
+											
                       
 					</ul>
 					<ul class="nav navbar-nav navbar-right">

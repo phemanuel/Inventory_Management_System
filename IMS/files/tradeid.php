@@ -49,14 +49,14 @@ if ($clientid == "ISPIMS") {
 
 	echo "<script>
 
-window.location.href='trading.php';
+window.location.href='trading_check.php';
 </script>";
 }
 elseif ($clientid == "COINMARTIMS") {
 
 	echo "<script>
 
-window.location.href='tradingCM.php';
+window.location.href='tradingCM_check.php';
 </script>";
 }
 else {

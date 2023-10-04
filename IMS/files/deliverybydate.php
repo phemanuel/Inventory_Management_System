@@ -84,11 +84,11 @@ function MM_goToURL() { //v3.0
       <td width="550"><div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title"><i class="fa fa-plus"></i><?php echo "Sales Report" . " between " . $startdate  . " to " . $enddate; ?></h4>
+          <h4 class="modal-title"><i class="fa fa-plus"></i><?php echo "Delivery Report" . " between " . $startdate  . " to " . $enddate; ?></h4>
         </div>
          <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title"><span class="style1 style11"><a href="ordercsv3.php">Download CSV</a> for Sales  | <a href="order.php">Menu</a></span></h4>
+          <h4 class="modal-title"><span class="style1 style11"><a href="delivery_csv1.php">Download CSV</a> | <a href="delivery.php">Menu</a></span></h4>
         </div>
          <div class="modal-body">
          <?php
@@ -96,17 +96,18 @@ $startdate = date("Y-m-d", strtotime($_SESSION['startdate']));
 $enddate = date("Y-m-d", strtotime($_SESSION['enddate'])); 
 
 //$sql = "SELECT agentcode, agentname, agentpassword, agentstatus, date1 FROM gh WHERE ghvalue='0'";
-$sql = "SELECT supplyid,itembarcode,itemname,itemquantity,amount,supplydate FROM supply WHERE  supplydate BETWEEN '" . $startdate . "' AND  '" . $enddate . "' and  clientid='$clientid'  order by supplydate DESC";
+$sql = "SELECT customer_name,mobile_no,item_name,pickup_location,delivery_location,price,payment_mode,pickup_time
+,delivery_time,date1,confirm_by FROM delivery WHERE  date1 BETWEEN '" . $startdate . "' AND  '" . $enddate . "' and  clientid='$clientid'  order by date1 DESC";
 $result = $conn->query($sql);
 //==============
-$sql1="SELECT * FROM supply WHERE  supplydate BETWEEN '" . $startdate . "' AND  '" . $enddate . "' and  clientid='$clientid' ";
+$sql1="SELECT * FROM delivery WHERE  date1 BETWEEN '" . $startdate . "' AND  '" . $enddate . "' and  clientid='$clientid' ";
 $result1=mysqli_query($conn,$sql1);
 $count=mysqli_num_rows($result1);
 $_SESSION['totalquantity'] = $count ;
 //$_SESSION['totalrecord'] = $count ;
 //====================get total amount---------
 
-$result5 = mysqli_query($conn,"SELECT SUM(amount) AS value_sum FROM supply WHERE supplydate BETWEEN '" . $startdate . "' AND  '" . $enddate . "' and  clientid='$clientid'"); 
+$result5 = mysqli_query($conn,"SELECT SUM(price) AS value_sum FROM delivery WHERE date1 BETWEEN '" . $startdate . "' AND  '" . $enddate . "' and  clientid='$clientid'"); 
 $row1 = mysqli_fetch_assoc($result5); 
 $sum = $row1['value_sum'];
 $_SESSION['totalamount']  = $sum ;
@@ -118,14 +119,16 @@ $_SESSION['totalamount']  = $sum ;
 if ($result5->num_rows > 0) {
 
 
-echo "<table class='table table-bordered table-striped'><thead><tr><th>S/NO</th><th>ITEM BARCODE</th><th>ITEM NAME</th><th>QUANTITY</th><th>AMOUNT</th><th>DATE</th></tr></thead>";
+  echo "<table class='table table-bordered table-striped'><thead><tr><th>S/NO</th><th>CUSTOMER NAME</th><th>ITEM NAME</th>
+  <th>AMOUNT</th><th>PICK-UP</th><th>DELIVERY</th><th>DATE</th></tr></thead>";
 
 
      // output data of each row
 	 $c=0;
      while($row = $result->fetch_assoc()) {
 	 //$c++ ;
-         echo "<tr><td>" . ++$c. "</td><td>" . $row["itembarcode"]. "</td><td>" . $row["itemname"]. "</td><td>"  . $row["itemquantity"]. "</td><td>"  . $row["amount"]. "</td><td>"  . $row["supplydate"]. "</td></tr>";
+   echo "<tr><td>" . ++$c. "</td><td>" . $row["customer_name"]. "</td><td>" . $row["item_name"]. "</td><td>"  
+   . $row["price"]. "</td><td>"  . $row["pickup_location"]. "</td><td>"  . $row["delivery_location"]. "</td><td>"  . $row["date1"]. "</td></tr>";
 		 
 	
      }
@@ -140,7 +143,7 @@ echo "<table class='table table-bordered table-striped'><thead><tr><th>S/NO</th>
          <div class="modal-body"><p align = "left"><strong>Total Amount:</strong>  <?php echo $sum ; ?>&nbsp;</p></div>
                 <div class="modal-footer">
           
-          <input name="button" type="submit" id="button4"  class="btn btn-info" onclick="MM_goToURL('parent','order.php');return document.MM_returnValue" value="Close" />
+          <input name="button" type="submit" id="button4"  class="btn btn-info" onclick="MM_goToURL('parent','delivery.php');return document.MM_returnValue" value="Close" />
         </div>
       </div></td>
       

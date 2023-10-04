@@ -43,7 +43,7 @@ else {
 //	header("location:index.php");
 //}
 
-include('tradingheader.php');
+include('tradingheader_user.php');
 
 
 ?>
@@ -74,9 +74,8 @@ include('tradingheader.php');
                                     <th>Customer Name</th>
                                      <th>Customer Rate </th> 
                                      <th>Amount Sold </th>
-                                     <th>Date</th>                                  
+                                     <th>Date</th>
                                     <th>Status</th>
-                                    <th></th>
                                     <th></th>
                                     
                                 </tr></thead>
@@ -129,29 +128,6 @@ include('tradingheader.php');
                                 <label>Customer Rate</label>
                                 <input type="text" name="customer_rate" id="customer_rate" class="form-control" required pattern="[+-]?([0-9]*[.])?[0-9]+" />
                             </div>
-                            <div class="form-group">
-                                <label>Remark</label>
-                                <textarea name="remark" id="remark" class="form-control" rows="3"></textarea>
-                            </div> 
-                            <div class="form-group">
-                                <label>Referal Code</label>
-                                <?php
-require "dbconfig1.php";// Database connection
-//////////////////////////////
-echo "<select name= 'refcode' class='form-control' required>";
-echo '<option value="">'.'--- Select Referal Code ---'.'</option>';
-//$query=mysqli_query($con,"SELECT id,FirstName FROM persons");
-$query = mysqli_query($conn,"SELECT refcode FROM referal_code WHERE clientid = '$clientid' order by refcode asc");
-$query_display = mysqli_query($conn,"SELECT * FROM referal_code");
-while($row=mysqli_fetch_array($query))
-{
-    echo "<option value='". $row['refcode']."'>".$row['refcode']
- .'</option>';
-}
-echo '</select>';
-?>
-                                
-                            </div>
                              
                         </div>
                         
@@ -194,7 +170,7 @@ $(document).ready(function(){
         "serverSide":true,
         "order":[],
         "ajax":{
-            url:"trading_fetch.php",
+            url:"trading_user_fetch.php",
             type:"POST"
         },
         "columnDefs":[
@@ -221,7 +197,7 @@ $(document).ready(function(){
         $('#action').attr('disabled', 'disabled');
         var form_data = $(this).serialize();
         $.ajax({
-            url:"trading_action.php",
+            url:"trading_actionCM.php",
             method:"POST",
             data:form_data,
             success:function(data)
@@ -239,7 +215,7 @@ $(document).ready(function(){
         var product_id = $(this).attr("id");
         var btn_action = 'product_details';
         $.ajax({
-            url:"trading_action.php",
+            url:"trading_actionCM.php",
             method:"POST",
             data:{product_id:product_id, btn_action:btn_action},
             success:function(data){
@@ -253,7 +229,7 @@ $(document).ready(function(){
         var product_id = $(this).attr("id");
         var btn_action = 'fetch_single';
         $.ajax({
-            url:"trading_action.php",
+            url:"trading_actionCM.php",
             method:"POST",
             data:{product_id:product_id, btn_action:btn_action},
             dataType:"json",
@@ -267,8 +243,6 @@ $(document).ready(function(){
                 $('#customer_rate').val(data.customer_rate);
                 $('#card_name').val(data.card_name);
 				$('#card_amount').val(data.card_amount);
-                $('#remark').val(data.remark);
-                $('#refcode').val(data.refcode);
                 $('.modal-title').html("<i class='fa fa-pencil-square-o'></i> Edit Trading info");
                 $('#product_id').val(product_id);
                 $('#action').val("Update");
@@ -280,11 +254,11 @@ $(document).ready(function(){
     $(document).on('click', '.delete', function(){
         var product_id = $(this).attr("id");
         var status = $(this).data("status");
-        var btn_action = 'delete1';
+        var btn_action = 'delete';
         if(confirm("Are you sure you want to change status?"))
         {
             $.ajax({
-                url:"trading_action1.php",
+                url:"trading_actionCM.php",
                 method:"POST",
                 data:{product_id:product_id, status:status, btn_action:btn_action},
                 success:function(data){

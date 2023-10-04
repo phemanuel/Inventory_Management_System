@@ -25,6 +25,7 @@ $clientname1 = strtoupper($clientname);
 				<div class="container-fluid">
 					<div class="navbar-header">
 						<a href="../dashboardcheck.php" class="navbar-brand">Menu</a>
+						<a href="delivery_report.php" class="navbar-brand">Report</a>
 					</div>
 					<ul class="nav navbar-nav">
 					

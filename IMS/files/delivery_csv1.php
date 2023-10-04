@@ -2,7 +2,7 @@
  include "dbconfig.php" ;
 
 $clientid = $_SESSION['clientid'];
-$deptkeep = $_SESSION['dept'];
+$yearkeep = $_SESSION['yearkeep'];
 
 //Our MySQL connection details.
 $host = 'localhost';
@@ -14,7 +14,8 @@ $database = 'ims';
 $pdo = new PDO("mysql:host=$host;dbname=$database", $user, $password);
  
 //Create our SQL query.
-$sql = "SELECT itemname,amount,purchasedate,paymentmode,expensename,month1,year1,approvedby FROM purchase1 WHERE  dept='$deptkeep' and clientid='$clientid'";
+$sql = "SELECT customer_name,mobile_no,item_name,pickup_location,delivery_location,price,payment_mode,pickup_time
+,delivery_time,date1,confirm_by FROM delivery WHERE clientid='$clientid' and year1='$yearkeep' ";
  
 //Prepare our SQL query.
 $statement = $pdo->prepare($sql);
@@ -37,7 +38,7 @@ if(!empty($rows)){
 }
  $date1 = date('d-m-Y');
 //Setup the filename that our CSV will have when it is downloaded.
-$fileName1 = "Expense Report for  " . $deptkeep. $date1 . ".csv" ;
+$fileName1 = "All Delivery Report for  ".$yearkeep . $date1 . ".csv" ;
 $fileName = $fileName1;
  
 //Set the Content-Type and Content-Disposition headers to force the download.
