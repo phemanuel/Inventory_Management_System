@@ -3,6 +3,7 @@
 
 include ("imsdbconfig.php");
 
+
 $clientid=$_SESSION['clientid']; 
 $useremail=$_SESSION['user_email']; 
 $userpass=$_SESSION['user_password']; 
