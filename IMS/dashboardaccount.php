@@ -1,5 +1,6 @@
 <?php
-include "dbconfig.php";
+//include "dbconfig.php";
+require "income_expense.php";
 
 $clientid = $_SESSION['clientid'];
 $clientname = $_SESSION['clientname'];
@@ -78,6 +79,11 @@ $DELTRS= $_SESSION['DELTRS'];
   <!-- Custom style CSS -->
   <link rel="stylesheet" href="assets/css/custom.css">
   <link rel='shortcut icon' type='image/x-icon' href='assets/img/favicon.png' />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+	<script
+src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+</script>
   <style type="text/css">
 <!--
 .style1 {color: #000000}
@@ -166,6 +172,74 @@ $DELTRS= $_SESSION['DELTRS'];
       <!-- Main Content -->
       <div class="main-content">
         <section class="section">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-lg-12">
+              <div class="card ">
+                <div class="card-header">
+                  <h4>Income/Expense chart</h4>
+                  <div class="card-header-action">
+                    <div class="dropdown">
+                      <a href="#" data-toggle="dropdown" class="btn btn-warning dropdown-toggle">Year</a>
+                      <div class="dropdown-menu">
+                        <a href="#" class="dropdown-item has-icon"><i class="fas fa-eye"></i>2020</a>
+                        <a href="#" class="dropdown-item has-icon"><i class="fas fa-eye"></i>2021</a>
+                        <a href="#" class="dropdown-item has-icon"><i class="fas fa-eye"></i>2022</a>
+                        <a href="#" class="dropdown-item has-icon"><i class="fas fa-eye"></i>2023</a>
+                        <a href="#" class="dropdown-item has-icon"><i class="fas fa-eye"></i>2024</a>
+                        <a href="#" class="dropdown-item has-icon"><i class="fas fa-eye"></i>2025</a>
+                        <a href="#" class="dropdown-item has-icon"><i class="fas fa-eye"></i>2026</a>
+                        <a href="#" class="dropdown-item has-icon"><i class="fas fa-eye"></i>2027</a>
+                        <a href="#" class="dropdown-item has-icon"><i class="fas fa-eye"></i>2028</a>
+                        <a href="#" class="dropdown-item has-icon"><i class="fas fa-eye"></i>2029</a>
+                        <a href="#" class="dropdown-item has-icon"><i class="fas fa-eye"></i>2030</a>
+                      </div>
+                    </div>
+                    <a href="#" class="btn btn-primary"></a>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-9">
+                    <div style="width: 80%; margin: auto;">
+                    <canvas id="combinedChart" style="width:100%;max-width:700px"></canvas>
+                     </div>
+                      <div class="row mb-0">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                          <div class="list-inline text-center">
+                            <div class="list-inline-item p-r-30"><i data-feather="arrow-up-circle"
+                                class="col-green"></i>
+                              <h5 class="m-b-0"><?php echo "=N=" . number_format($totalincome,2) ;  ?></h5>
+                              <p class="text-muted font-14 m-b-0">Total Income</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                          <div class="list-inline text-center">
+                            <div class="list-inline-item p-r-30"><i data-feather="arrow-down-circle"
+                                class="col-orange"></i>
+                              <h5 class="m-b-0"><?php echo "=N=" . number_format($totalexpense,2);  ?></h5>
+                              <p class="text-muted font-14 m-b-0">Total Expense</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                          <div class="list-inline text-center">
+                            <div class="list-inline-item p-r-30"><i data-feather="arrow-up-circle"
+                                class="col-green"></i>
+                              <h5 class="mb-0 m-b-0"><?php echo "=N=" . number_format($diff,2) ?></h5>
+                              <p class="text-muted font-14 m-b-0">Difference</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>       
+
           <div class="row ">
             <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
               <div class="card">
@@ -424,3 +498,45 @@ $DELTRS= $_SESSION['DELTRS'];
 
 <!-- index.html  21 Nov 2019 03:47:04 GMT -->
 </html>
+<script>
+
+function fetchDataAndPopulateCombinedChart() {
+    fetch('iechart_data.php') // Change to the actual URL for fetching combined data
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.months && data.income_amounts && data.expense_amounts) {
+                populateCombinedChart(data);
+            } else {
+                console.error('Data format is incorrect.');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+}
+
+
+function populateCombinedChart(data) {
+    const combinedCtx = document.getElementById('combinedChart').getContext('2d');
+    const combinedChart = new Chart(combinedCtx, {
+        type: 'bar',
+        data: {
+            labels: data.months,
+            datasets: [{
+                label: 'Income Amount',
+                data: data.income_amounts,
+                backgroundColor: 'rgba(75, 192, 192, 0.6)', // Green color for income
+            }, {
+                label: 'Expense Amount',
+                data: data.expense_amounts,
+                backgroundColor: 'rgba(255, 99, 132, 0.6)', // Red color for expense
+            }]
+        },
+        options: {}
+    });
+}
+
+fetchDataAndPopulateCombinedChart();
+
+
+</script>

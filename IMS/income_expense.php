@@ -1,5 +1,5 @@
 <?php
-include('dbconfig2.php');
+include('dbconfig.php');
 $clientid = $_SESSION['clientid'];
 $yearkeep = date('Y');
 $datekeep = date('Y-m-d H:i:s');
@@ -83,7 +83,20 @@ foreach ($months as $month) {
     
     mysqli_query($conn, $query);
 }
+//====Total sum for income-------
+$result20 = mysqli_query($conn,"SELECT SUM(income_amount) AS value_sum FROM income_expense WHERE year1='$yearkeep' and clientid='$clientid'"); 
+$row20 = mysqli_fetch_assoc($result20); 
+$sum20 = $row20['value_sum'];
+$totalincome = $sum20;
+//------------------------------------
+//====total sum for expense-------
+$result21 = mysqli_query($conn,"SELECT SUM(expense_amount) AS value_sum FROM income_expense WHERE year1='$yearkeep' and clientid='$clientid'"); 
+$row21 = mysqli_fetch_assoc($result21); 
+$sum21 = $row21['value_sum'];
+$totalexpense = $sum21;
+//------------------------------------
 
+$diff = ($sum20 - $sum21) ;
 // Close the database connection when done
 //mysqli_close($conn);
 

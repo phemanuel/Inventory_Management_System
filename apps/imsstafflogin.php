@@ -117,7 +117,7 @@ g:
 
 if ($usertype == "master") {
 echo "<script>
-window.location.href='../IMS/dashboarduserISP.php';
+window.location.href='../IMS/dashboardmaster.php';
 </script>";
 }
 else if ($usertype == "user"){
@@ -132,7 +132,7 @@ z:
 
 if ($usertype == "master") {
 echo "<script>
-window.location.href='../IMS/dashboardCM.php';
+window.location.href='../IMS/dashboardmaster.php';
 </script>";
 }
 else if ($usertype == "user"){
@@ -147,7 +147,7 @@ V:
 
 if ($usertype == "master") {
 echo "<script>
-window.location.href='../IMS/dashboarduserROYAL.php';
+window.location.href='../IMS/dashboardmaster.php';
 </script>";
 }
 else if ($usertype == "user"){
@@ -162,7 +162,7 @@ h:
 
 if ($usertype == "master") {
 echo "<script>
-window.location.href='../IMS/dashboarduser.php';
+window.location.href='../IMS/dashboardmaster.php';
 </script>";
 }
 else if ($usertype == "user"){
