@@ -1,6 +1,5 @@
 <?php
-//include "dbconfig.php";
-require "income_expense.php";
+include "dbconfig.php";
 
 $clientid = $_SESSION['clientid'];
 $clientname = $_SESSION['clientname'];
@@ -15,7 +14,16 @@ $clientsize = $_SESSION['clientsize'];
 $duedate1 = $_SESSION['duedate'];
 $prodsize = $_SESSION['prodsize'];
 $duedate = date("d-m-Y", strtotime($duedate1)); 
-
+require "income_expense.php";
+// if($clientid=='ISPIMS'){
+//   require "income_expense_ISP.php";
+// }
+// elseif($clientid=='COINMARTIMS'){
+//   require "income_expense_CM.php";
+// }
+// else {
+//   require "income_expense.php";
+// }
 
 if ( empty ( $_SESSION['clientid'])) {
 echo "<script>

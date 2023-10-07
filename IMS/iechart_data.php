@@ -1,4 +1,6 @@
 <?php
+session_start();
+$clientid = $_SESSION['clientid'];
 // Database connection parameters
 $host = 'localhost';
 $dbname = 'ims';
@@ -32,12 +34,13 @@ try {
                  SUM(income_amount) AS total_income, 
                  SUM(expense_amount) AS total_expense 
           FROM income_expense 
-          WHERE year1 = :year 
+          WHERE year1 = :year AND clientid = :clientid
           GROUP BY month1, year1
           ORDER BY FIELD(month1, 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December')";
     
     $statement = $pdo->prepare($query);
     $statement->bindParam(':year', $yearkeep, PDO::PARAM_INT);
+    $statement->bindParam(':clientid', $clientid, PDO::PARAM_STR); // Assuming $clientid is the client ID (string) you want to filter by
     $statement->execute();
     
     // Initialize data arrays

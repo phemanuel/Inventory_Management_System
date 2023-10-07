@@ -46,36 +46,41 @@ foreach ($months as $month) {
     $sum5 = $row5['value_sum'];
     $monthlySum += $sum5;
     //------------------------------------
+    
+     $result6 = mysqli_query($conn, "SELECT SUM(amount) AS value_sum FROM purchase1 WHERE MONTH(purchasedate) = $monthNumber AND YEAR(purchasedate) = $year and clientid='$clientid'"); 
+    $row6 = mysqli_fetch_assoc($result6); 
+    $sum6 = $row6['value_sum'];
+    $monthlyExpenseSum += $sum6;
+    
+    // // Query for 'OPERATIONS' expenses
+    // $result7 = mysqli_query($conn, "SELECT SUM(amount) AS value_sum FROM purchase1 WHERE MONTH(purchasedate) = $monthNumber AND YEAR(purchasedate) = $year AND dept = 'OPERATIONS' AND clientid='$clientid'");
+    // $row7 = mysqli_fetch_assoc($result7);
+    // $sum7 = $row7['value_sum'];
+    // $monthlyExpenseSum += $sum7;
 
-    // Query for 'OPERATIONS' expenses
-    $result7 = mysqli_query($conn, "SELECT SUM(amount) AS value_sum FROM purchase1 WHERE MONTH(purchasedate) = $monthNumber AND YEAR(purchasedate) = $year AND dept = 'OPERATIONS' AND clientid='$clientid'");
-    $row7 = mysqli_fetch_assoc($result7);
-    $sum7 = $row7['value_sum'];
-    $monthlyExpenseSum += $sum7;
+    // // Query for 'DELIVERY' expenses
+    // $result8 = mysqli_query($conn, "SELECT SUM(amount) AS value_sum FROM purchase1 WHERE MONTH(purchasedate) = $monthNumber AND YEAR(purchasedate) = $year AND dept = 'DELIVERY' AND clientid='$clientid'");
+    // $row8 = mysqli_fetch_assoc($result8);
+    // $sum8 = $row8['value_sum'];
+    // $monthlyExpenseSum += $sum8;
 
-    // Query for 'DELIVERY' expenses
-    $result8 = mysqli_query($conn, "SELECT SUM(amount) AS value_sum FROM purchase1 WHERE MONTH(purchasedate) = $monthNumber AND YEAR(purchasedate) = $year AND dept = 'DELIVERY' AND clientid='$clientid'");
-    $row8 = mysqli_fetch_assoc($result8);
-    $sum8 = $row8['value_sum'];
-    $monthlyExpenseSum += $sum8;
+    // // Query for 'GADGET' expenses
+    // $result9 = mysqli_query($conn, "SELECT SUM(amount) AS value_sum FROM purchase1 WHERE MONTH(purchasedate) = $monthNumber AND YEAR(purchasedate) = $year AND dept = 'GADGET' AND clientid='$clientid'");
+    // $row9 = mysqli_fetch_assoc($result9);
+    // $sum9 = $row9['value_sum'];
+    // $monthlyExpenseSum += $sum9;
 
-    // Query for 'GADGET' expenses
-    $result9 = mysqli_query($conn, "SELECT SUM(amount) AS value_sum FROM purchase1 WHERE MONTH(purchasedate) = $monthNumber AND YEAR(purchasedate) = $year AND dept = 'GADGET' AND clientid='$clientid'");
-    $row9 = mysqli_fetch_assoc($result9);
-    $sum9 = $row9['value_sum'];
-    $monthlyExpenseSum += $sum9;
+    // // Query for 'EXCHANGE' expenses
+    // $result10 = mysqli_query($conn, "SELECT SUM(amount) AS value_sum FROM purchase1 WHERE MONTH(purchasedate) = $monthNumber AND YEAR(purchasedate) = $year AND dept = 'EXCHANGE' AND clientid='$clientid'");
+    // $row10 = mysqli_fetch_assoc($result10);
+    // $sum10 = $row10['value_sum'];
+    // $monthlyExpenseSum += $sum10;
 
-    // Query for 'EXCHANGE' expenses
-    $result10 = mysqli_query($conn, "SELECT SUM(amount) AS value_sum FROM purchase1 WHERE MONTH(purchasedate) = $monthNumber AND YEAR(purchasedate) = $year AND dept = 'EXCHANGE' AND clientid='$clientid'");
-    $row10 = mysqli_fetch_assoc($result10);
-    $sum10 = $row10['value_sum'];
-    $monthlyExpenseSum += $sum10;
-
-    // Query for 'ENTERPRISE' expenses
-    $result11 = mysqli_query($conn, "SELECT SUM(amount) AS value_sum FROM purchase1 WHERE MONTH(purchasedate) = $monthNumber AND YEAR(purchasedate) = $year AND dept = 'ENTERPRISE' AND clientid='$clientid'");
-    $row11 = mysqli_fetch_assoc($result11);
-    $sum11 = $row11['value_sum'];
-    $monthlyExpenseSum += $sum11;
+    // // Query for 'ENTERPRISE' expenses
+    // $result11 = mysqli_query($conn, "SELECT SUM(amount) AS value_sum FROM purchase1 WHERE MONTH(purchasedate) = $monthNumber AND YEAR(purchasedate) = $year AND dept = 'ENTERPRISE' AND clientid='$clientid'");
+    // $row11 = mysqli_fetch_assoc($result11);
+    // $sum11 = $row11['value_sum'];
+    // $monthlyExpenseSum += $sum11;
 
     $query = "INSERT INTO income_expense (month1, income_amount, expense_amount, year1, clientid)
               VALUES ('$month', $monthlySum, $monthlyExpenseSum, '$yearkeep', '$clientid')
