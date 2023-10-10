@@ -24,6 +24,40 @@ $clientid = $_SESSION['clientid'];
 <title></title>
 <style type="text/css">
 <!--
+.style5 {
+  font-size: 12px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.style8 {font-size: 12px}
+</style>
+<style>
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111111;
+}
+
+</style>
+<style type="text/css">
+<!--
 .style1 {
 	font-family: Calibri;
 	font-size: 16px;
@@ -68,12 +102,33 @@ $clientid = $_SESSION['clientid'];
     <tr>
       <td width="60%"><span class="style2">
         <?php
+        // variable to store number of rows per page
+
+        $limit = 20;    
+
+        // update the active page number
+
+         if (isset($_GET["page"])) {    
+
+            $page_number  = $_GET["page"];    
+
+        }    
+
+        else {    
+
+        $page_number=1;    
+
+        }       
+        // get the initial page number
+
+         $initial_page = ($page_number-1) * $limit;  
 
 //$sql = "SELECT agentcode, agentname, agentpassword, agentstatus, date1 FROM gh WHERE ghvalue='0'";
-$sql = "SELECT itemname,amount,purchasedate,paymentmode,expensename,approvedby,dept FROM purchase1 WHERE  month1='$month1keep' and year1='$year1keep'and clientid='$clientid'  order by purchasedate DESC";
+$sql = "SELECT itemname,amount,purchasedate,paymentmode,expensename,approvedby,dept FROM purchase1 WHERE  
+month1='$month1keep' and year1='$year1keep'and clientid='$clientid'  order by purchasedate DESC LIMIT $initial_page, $limit";
 $result = $conn->query($sql);
 //==============
-$sql1="SELECT * FROM purchase1 WHERE  month1='$month1keep' and year1='$year1keep'and clientid='$clientid' ";
+$sql1="SELECT * FROM purchase1 WHERE  month1='$month1keep' and year1='$year1keep'and clientid='$clientid' LIMIT $initial_page, $limit";
 $result1=mysqli_query($conn,$sql1);
 $count=mysqli_num_rows($result1);
 $_SESSION['totalrecord'] = $count ;
@@ -106,6 +161,69 @@ echo "<table class='table table-bordered table-striped'><thead><tr><th>S/NO</th>
       <td colspan="2"><span class="style5"><?php echo $count ;?>&nbsp; records</span></td>
     </tr>
   </table>
+  <table width="50%" border="0" cellpadding="4" cellspacing="4" class='table table-bordered table-striped'>
+              <tr>
+                <td><strong>Pagination</strong></td>
+              </tr>
+              <tr>
+                <td><ul>
+                    <?php  
+
+$getQuery = "SELECT COUNT(*) FROM purchase1 WHERE  
+month1='$month1keep' and year1='$year1keep'and clientid='$clientid'";     
+
+$result = mysqli_query($conn, $getQuery);     
+
+$row = mysqli_fetch_row($result);     
+
+$total_rows = $row[0];              
+
+echo "</br>";            
+
+// get the required number of pages
+
+$total_pages = ceil($total_rows / $limit);     
+
+$pageURL = "";             
+
+if($page_number>=2){   
+
+    echo "<li class='Previous'><a href='expensebyyear.php?page=".($page_number-1)."'>  <strong>Prev</strong> </a></li>";   
+
+}                          
+
+for ($i=1; $i<=$total_pages; $i++) {   
+
+  if ($i == $page_number) {   
+
+      $pageURL .= "<li><a class = 'active' href='expensebyyear.php?page="  
+
+                                        .$i."'>".$i." </a></li>";   
+
+  }               
+
+  else  {   
+
+      $pageURL .= "<li><a href='expensebyyear.php?page=".$i."'>   
+
+                                        ".$i." </a></li>";     
+
+  }   
+
+};     
+
+echo $pageURL;    
+
+if($page_number<$total_pages){   
+
+    echo "<li class='Next'><a href='expensebyyear.php?page=".($page_number+1)."'>  <strong>Next</strong> </a></i></li>";   
+
+}     
+
+?>
+                </ul></td>
+              </tr>
+            </table>
 </form>
 </div>
 </div>
