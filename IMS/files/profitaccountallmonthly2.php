@@ -18,10 +18,8 @@ else {
 
 $transname  = $_SESSION['transname'] ;
 $transtype  = $_SESSION['transtype'] ;
-$monthkeep = $_REQUEST['month1'];
-$yearkeep = $_REQUEST['year1'];
-$_SESSION['monthkeep']  = $monthkeep;
-$_SESSION['yearkeep']  = $yearkeep;
+$monthkeep = $_SESSION['monthkeep'];
+$yearkeep = $_SESSION['yearkeep'];
 
 $datekeep = date('Y-m-d');
 $datekeep1 = date("jS F, Y", strtotime($datekeep));
@@ -189,7 +187,7 @@ echo "<table class='table table-bordered table-striped'><thead><tr><th>S/NO</th>
             <label></label>
           </div>
         </div>
-         <div class="modal-footer">
+        <div class="modal-footer">
           <table width="50%" border="0" cellpadding="4" cellspacing="4" class='table table-bordered table-striped'>
               <tr>
                 <td><strong>Pagination</strong></td>
@@ -256,7 +254,7 @@ if($page_number<$total_pages){
         <div class="modal-footer">
           <input name="button" type="submit" id="button4"  class="btn btn-info" onclick="MM_goToURL('parent','profitaccount.php');return document.MM_returnValue" value="Close" />
         </div>
-       
+        
       </div></td>
       <td width="65">&nbsp;</td>
     </tr>

@@ -16,12 +16,12 @@ else {
 
 } 
 
+$startdate = $_SESSION['startdate'];
+$enddate = $_SESSION['enddate'];
+
 $transname  = $_SESSION['transname'] ;
 $transtype  = $_SESSION['transtype'] ;
-$monthkeep = $_REQUEST['month1'];
-$yearkeep = $_REQUEST['year1'];
-$_SESSION['monthkeep']  = $monthkeep;
-$_SESSION['yearkeep']  = $yearkeep;
+
 
 $datekeep = date('Y-m-d');
 $datekeep1 = date("jS F, Y", strtotime($datekeep));
@@ -104,15 +104,15 @@ function MM_goToURL() { //v3.0
 <form method="post" id="product_form" action="paymentcheck.php">
   <table width="100%" border="0">
     <tr>
-      <td width="58">&nbsp;</td>
-      <td width="882"><div class="modal-content">
+      <td width="70">&nbsp;</td>
+      <td width="870"><div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title"><i class="fa fa-plus"></i><?php echo $transname ." Profit Analysis" . " for " . $monthkeep . " , " . $yearkeep ; ?></h4>
+          <h4 class="modal-title"><i class="fa fa-plus"></i><?php echo $transname ." Profit Analysis" . " between " . $startdate  . " to " . $enddate; ?></h4>
         </div>
         <div class="modal-body">
           <?php
-// variable to store number of rows per page
+		  // variable to store number of rows per page
 
                         $limit = 20;    
 
@@ -132,18 +132,21 @@ function MM_goToURL() { //v3.0
                         // get the initial page number
 
                          $initial_page = ($page_number-1) * $limit;  
+$startdate = date("Y-m-d", strtotime($_SESSION['startdate']));  
+$enddate = date("Y-m-d", strtotime($_SESSION['enddate'])); 
+
 //$sql = "SELECT agentcode, agentname, agentpassword, agentstatus, date1 FROM gh WHERE ghvalue='0'";
-$sql = "SELECT rid,itemname,itemquantity,amount,itemprice,product_profit,itembaseprice,confirmby,supplydate FROM supply WHERE  month1='$monthkeep' and year1='$yearkeep' and clientid='$clientid'  order by supplydate DESC LIMIT $initial_page, $limit";
+$sql = "SELECT product_id,customer_rate,amount_sold,vendor_name,customer_name,card_name,card_amount,card_rate,rmb_value,profit,date1,confirm_by FROM trading WHERE  date1 BETWEEN '" . $startdate . "' AND  '" . $enddate . "' and confirm_by='$transname' and  clientid='$clientid'  order by date1 DESC LIMIT $initial_page, $limit";
 $result = $conn->query($sql);
 //==============
-$sql1="SELECT * FROM supply WHERE  month1='$monthkeep' and year1='$yearkeep' and clientid='$clientid' LIMIT $initial_page, $limit";
+$sql1="SELECT * FROM trading WHERE   date1 BETWEEN '" . $startdate . "' AND  '" . $enddate . "' and  clientid='$clientid' LIMIT $initial_page, $limit";
 $result1=mysqli_query($conn,$sql1);
 $count=mysqli_num_rows($result1);
 $_SESSION['totalquantity'] = $count ;
 //$_SESSION['totalrecord'] = $count ;
 //====================get total amount---------
 
-$result5 = mysqli_query($conn,"SELECT SUM(amount) AS value_sum FROM supply WHERE month1='$monthkeep' and year1='$yearkeep' and clientid='$clientid'"); 
+$result5 = mysqli_query($conn,"SELECT SUM(amount_sold) AS value_sum FROM trading WHERE date1 BETWEEN '" . $startdate . "' AND  '" . $enddate . "' and confirm_by='$transname' and  clientid='$clientid'"); 
 $row1 = mysqli_fetch_assoc($result5); 
 $sum = $row1['value_sum'];
 $_SESSION['totalamount']  = $sum ;
@@ -151,7 +154,7 @@ $_SESSION['totalamount']  = $sum ;
 //$_SESSION['finalamount']  = $sum ;
 
 //----------------get total profit-----------------
-$result7 = mysqli_query($conn,"SELECT SUM(product_profit) AS value_sum1 FROM supply WHERE month1='$monthkeep' and year1='$yearkeep' and clientid='$clientid'"); 
+$result7 = mysqli_query($conn,"SELECT SUM(profit) AS value_sum1 FROM trading WHERE date1 BETWEEN '" . $startdate . "' AND  '" . $enddate . "' and confirm_by='$transname' and  clientid='$clientid'"); 
 $row7 = mysqli_fetch_assoc($result7); 
 $sum7 = $row7['value_sum1'];
 $_SESSION['totalprofit']  = $sum7 ;
@@ -159,14 +162,14 @@ $_SESSION['totalprofit']  = $sum7 ;
 if ($result5->num_rows > 0) {
 
 
-echo "<table class='table table-bordered table-striped'><thead><tr><th>S/NO</th><th>ITEM NAME</th><th>COST PRICE</th><th>SELL PRICE</th><th>QUANTITY</th><th>AMOUNT</th><th>PROFIT</th><th>SOLD BY</th><th>SOLD DATE</th></tr></thead>";
+echo "<table class='table table-bordered table-striped'><thead><tr><th>S/NO</th><th>CARD NAME</th><th>RATE</th><th>AMOUNT</th><th>VENDOR</th><th>RMB</th><th>CUSTOMER NAME</th><th>RATE</th><th>AMOUNT SOLD</th><th>PROFIT</th><th>DATE</th><th>CONFIRM BY</th></tr></thead>";
 
 
      // output data of each row
 	 $c=0;
      while($row = $result->fetch_assoc()) {
 	 //$c++ ;
-         echo "<tr><td>" . ++$c. "</td><td>" . $row["itemname"]. "</td><td>" . $row["itembaseprice"]. "</td><td>" . $row["itemprice"]. "</td><td>" . $row["itemquantity"]. "</td><td>"  . $row["amount"]. "</td><td>" . $row["product_profit"]. "</td><td>" . $row["confirmby"]. "</td><td>" . $row["supplydate"]. "</td></tr>";
+          echo "<tr><td>" . ++$c. "</td><td>" . $row["card_name"]. "</td><td>" . $row["card_rate"]. "</td><td>" . $row["card_amount"]. "</td><td>" . $row["vendor_name"]. "</td><td>"  . $row["rmb_value"]. "</td><td>" . $row["customer_name"]. "</td><td>" . $row["customer_rate"]. "</td><td>" . $row["amount_sold"]. "</td><td>" . $row["profit"]. "</td><td>" . $row["date1"]. "</td><td>" . $row["confirm_by"]. "</td></tr>";
 		 
 	
      }
@@ -182,23 +185,27 @@ echo "<table class='table table-bordered table-striped'><thead><tr><th>S/NO</th>
           <div class="form-group">
             <table width="50%" border="0" cellpadding="4" cellspacing="4" class='table table-bordered table-striped'>
               <tr>
-                <td width="34%"><strong>Profit</strong></td>
-                <td width="66%"><span class="style5 style8"><?php echo $sum7; ?></span></td>
+                <td width="34%"><strong>Total Amount Sold</strong></td>
+                <td width="66%"><span class="style5 style8"><?php echo $sum; ?></span></td>
+              </tr>
+              <tr>
+                <td><strong>Profit</strong></td>
+                <td><span class="style5 style8"><?php echo $sum7; ?></span></td>
               </tr>
             </table>
             <label></label>
           </div>
         </div>
-         <div class="modal-footer">
-          <table width="50%" border="0" cellpadding="4" cellspacing="4" class='table table-bordered table-striped'>
+        <div class="modal-footer">
+         <table width="50%" border="0" cellpadding="4" cellspacing="4" class='table table-bordered table-striped'>
               <tr>
-                <td><strong>Pagination</strong></td>
+                <td><div align="left"><strong>Pagination</strong></div></td>
               </tr>
               <tr>
                 <td><ul>
                     <?php  
 
-$getQuery = "SELECT COUNT(*) FROM supply WHERE  month1='$monthkeep' and year1='$yearkeep' and clientid='$clientid'";     
+$getQuery = "SELECT COUNT(*) FROM trading WHERE  date1 BETWEEN '" . $startdate . "' AND  '" . $enddate . "' and confirm_by='$transname' and  clientid='$clientid'";     
 
 $result = mysqli_query($conn, $getQuery);     
 
@@ -216,7 +223,7 @@ $pageURL = "";
 
 if($page_number>=2){   
 
-    echo "<li class='Previous'><a href='profitaccountallmonthly2.php?page=".($page_number-1)."'>  <strong>Prev</strong> </a></li>";   
+    echo "<li class='Previous'><a href='tprofitaccountuserdate2.php?page=".($page_number-1)."'>  <strong>Prev</strong> </a></li>";   
 
 }                          
 
@@ -224,7 +231,7 @@ for ($i=1; $i<=$total_pages; $i++) {
 
   if ($i == $page_number) {   
 
-      $pageURL .= "<li><a class = 'active' href='profitaccountallmonthly2.php?page="  
+      $pageURL .= "<li><a class = 'active' href='tprofitaccountuserdate2.php?page="  
 
                                         .$i."'>".$i." </a></li>";   
 
@@ -232,7 +239,7 @@ for ($i=1; $i<=$total_pages; $i++) {
 
   else  {   
 
-      $pageURL .= "<li><a href='profitaccountallmonthly2.php?page=".$i."'>   
+      $pageURL .= "<li><a href='tprofitaccountuserdate2.php?page=".$i."'>   
 
                                         ".$i." </a></li>";     
 
@@ -244,7 +251,7 @@ echo $pageURL;
 
 if($page_number<$total_pages){   
 
-    echo "<li class='Next'><a href='profitaccountallmonthly2.php?page=".($page_number+1)."'>  <strong>Next</strong> </a></i></li>";   
+    echo "<li class='Next'><a href='tprofitaccountuserdate2.php?page=".($page_number+1)."'>  <strong>Next</strong> </a></i></li>";   
 
 }     
 
@@ -254,9 +261,8 @@ if($page_number<$total_pages){
             </table>
         </div>
         <div class="modal-footer">
-          <input name="button" type="submit" id="button4"  class="btn btn-info" onclick="MM_goToURL('parent','profitaccount.php');return document.MM_returnValue" value="Close" />
+          <input name="button" type="submit" id="button4"  class="btn btn-info" onclick="MM_goToURL('parent','tprofitaccount.php');return document.MM_returnValue" value="Close" />
         </div>
-       
       </div></td>
       <td width="65">&nbsp;</td>
     </tr>

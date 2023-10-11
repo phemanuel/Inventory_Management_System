@@ -81,18 +81,22 @@ li a:hover {
 
 <body>
 <div class="panel-body">
-                        <div class="row"><div class="col-sm-12 table-responsive">
-<form id="form1" name="form1" method="post" action="">
-  <table width="60%" border="0" align="left" class="table table-bordered table-striped">
-    <tr>
-      <td colspan="2"><span class="style1"><a href="expensecsv1.php">Download CSV</a> for Expense made by <span class="style6"><?php echo $deptkeep;  ?> <span class="style7">| <a href="expense.php">Menu</a></span></span></span></td>
-    </tr>
-    <tr>
-      <td colspan="2">&nbsp;</td>
-    </tr>
-    <tr>
-      <td width="60%"><span class="style2">
-        <?php
+                        <div class="row">
+                          <table width="974" border="0" align="center" cellpadding="3" cellspacing="3">
+                            <tr>
+                              <td width="36">&nbsp;</td>
+                              <td width="779"><div class="col-sm-12 table-responsive">
+                                <form id="form1" name="form1" method="post" action="">
+                                  <table width="60%" border="0" align="left" class="table table-bordered table-striped">
+                                    <tr>
+                                      <td><span class="style1"><a href="expensecsv1.php">Download CSV</a> for Expense made by <span class="style6"><?php echo $deptkeep;  ?> <span class="style7">| <a href="expense.php">Menu</a></span></span></span></td>
+                                    </tr>
+                                    <tr>
+                                      <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                      <td><span class="style2">
+                                        <?php
         // variable to store number of rows per page
 
         $limit = 20;    
@@ -145,20 +149,19 @@ echo "<table class='table table-bordered table-striped'><thead><tr><th>S/NO</th>
      echo "0 results";
 }
 ?>
-      </span></td>
-      <td width="40%">&nbsp;</td>
-    </tr>
-    <tr>
-      <td colspan="2"><span class="style5"><?php echo $count ;?>&nbsp; records</span></td>
-    </tr>
-  </table>
-  <table width="50%" border="0" cellpadding="4" cellspacing="4" class='table table-bordered table-striped'>
-              <tr>
-                <td><strong>Pagination</strong></td>
-              </tr>
-              <tr>
-                <td><ul>
-                    <?php  
+                                      </span></td>
+                                    </tr>
+                                    <tr>
+                                      <td><span class="style5"><?php echo $count ;?>&nbsp; records</span></td>
+                                    </tr>
+                                  </table>
+                                  <table width="50%" border="0" cellpadding="4" cellspacing="4" class='table table-bordered table-striped'>
+                                    <tr>
+                                      <td><strong>Pagination</strong></td>
+                                    </tr>
+                                    <tr>
+                                      <td><ul>
+                                          <?php  
 
 $getQuery = "SELECT COUNT(*) FROM purchase1 
 WHERE  dept='$deptkeep' and clientid='$clientid' ";     
@@ -212,11 +215,14 @@ if($page_number<$total_pages){
 }     
 
 ?>
-                </ul></td>
-              </tr>
-            </table>
-</form>
-</div>
-</div>
+                                      </ul></td>
+                                    </tr>
+                                  </table>
+                                </form>
+                              </div></td>
+                              <td width="26">&nbsp;</td>
+                            </tr>
+                          </table>
+                        </div>
 </body>
 </html>

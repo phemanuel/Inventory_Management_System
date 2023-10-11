@@ -42,6 +42,31 @@ $datekeep1 = date("jS F, Y", strtotime($datekeep));
 		<link rel="stylesheet" href="css/dataTables.bootstrap.min.css" />
 <script src="js/bootstrap.min.js"></script>
 <link rel="icon" type="image/png" href="images/favicon.png">
+<style>
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #FFFFFF;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111111;
+}
+</style>
 <style type="text/css">
 <!--
 .style5 {
@@ -81,21 +106,43 @@ function MM_goToURL() { //v3.0
 <form method="post" id="product_form" action="paymentcheck.php">
   <table width="100%" border="0">
     <tr>
-      <td width="550"><div class="modal-content">
+      <td width="94">&nbsp;</td>
+      <td width="817"><div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title"><i class="fa fa-plus"></i><?php echo $transname ." Profit Analysis" . " between " . $startdate  . " to " . $enddate; ?></h4>
         </div>
-         <div class="modal-body">
-         <?php
+        <div class="modal-body">
+          <?php
+		  // variable to store number of rows per page
+
+                        $limit = 20;    
+
+                        // update the active page number
+
+                         if (isset($_GET["page"])) {    
+
+                            $page_number  = $_GET["page"];    
+
+                        }    
+
+                        else {    
+
+                        $page_number=1;    
+
+                        }       
+                        // get the initial page number
+
+                         $initial_page = ($page_number-1) * $limit; 
+						 
 $startdate = date("Y-m-d", strtotime($_SESSION['startdate']));  
 $enddate = date("Y-m-d", strtotime($_SESSION['enddate'])); 
 
 //$sql = "SELECT agentcode, agentname, agentpassword, agentstatus, date1 FROM gh WHERE ghvalue='0'";
-$sql = "SELECT rid,itemname,itemquantity,amount,itemprice,product_profit,itembaseprice,confirmby,supplydate FROM supply WHERE  supplydate BETWEEN '" . $startdate . "' AND  '" . $enddate . "' and  clientid='$clientid'  order by supplydate DESC";
+$sql = "SELECT rid,itemname,itemquantity,amount,itemprice,product_profit,itembaseprice,confirmby,supplydate FROM supply WHERE  supplydate BETWEEN '" . $startdate . "' AND  '" . $enddate . "' and  clientid='$clientid'  order by supplydate DESC LIMIT $initial_page, $limit";
 $result = $conn->query($sql);
 //==============
-$sql1="SELECT * FROM supply WHERE  supplydate BETWEEN '" . $startdate . "' AND  '" . $enddate . "' and  clientid='$clientid' ";
+$sql1="SELECT * FROM supply WHERE  supplydate BETWEEN '" . $startdate . "' AND  '" . $enddate . "' and  clientid='$clientid' LIMIT $initial_page, $limit";
 $result1=mysqli_query($conn,$sql1);
 $count=mysqli_num_rows($result1);
 $_SESSION['totalquantity'] = $count ;
@@ -136,9 +183,10 @@ echo "<table class='table table-bordered table-striped'><thead><tr><th>S/NO</th>
      echo "0 results";
 }
 ?>
-         </div>
-                <div class="modal-body"><div class="form-group">
-          <table width="50%" border="0" cellpadding="4" cellspacing="4" class='table table-bordered table-striped'>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <table width="50%" border="0" cellpadding="4" cellspacing="4" class='table table-bordered table-striped'>
               <tr>
                 <td width="34%"><strong>Profit</strong></td>
                 <td width="66%"><span class="style5 style8"><?php echo $sum7; ?></span></td>
@@ -146,13 +194,77 @@ echo "<table class='table table-bordered table-striped'><thead><tr><th>S/NO</th>
             </table>
             <label></label>
           </div>
-          </div>
+        </div>
         <div class="modal-footer">
-          
+         <table width="50%" border="0" cellpadding="4" cellspacing="4" class='table table-bordered table-striped'>
+              <tr>
+                <td><strong>Pagination</strong></td>
+              </tr>
+              <tr>
+                <td><ul>
+                    <?php  
+
+$getQuery = "SELECT COUNT(*) FROM supply WHERE  supplydate BETWEEN '" . $startdate . "' AND  '" . $enddate . "' and  clientid='$clientid'";     
+
+$result = mysqli_query($conn, $getQuery);     
+
+$row = mysqli_fetch_row($result);     
+
+$total_rows = $row[0];              
+
+echo "</br>";            
+
+// get the required number of pages
+
+$total_pages = ceil($total_rows / $limit);     
+
+$pageURL = "";             
+
+if($page_number>=2){   
+
+    echo "<li class='Previous'><a href='profitaccountalldate2.php?page=".($page_number-1)."'>  <strong>Prev</strong> </a></li>";   
+
+}                          
+
+for ($i=1; $i<=$total_pages; $i++) {   
+
+  if ($i == $page_number) {   
+
+      $pageURL .= "<li><a class = 'active' href='profitaccountalldate2.php?page="  
+
+                                        .$i."'>".$i." </a></li>";   
+
+  }               
+
+  else  {   
+
+      $pageURL .= "<li><a href='profitaccountalldate2.php?page=".$i."'>   
+
+                                        ".$i." </a></li>";     
+
+  }   
+
+};     
+
+echo $pageURL;    
+
+if($page_number<$total_pages){   
+
+    echo "<li class='Next'><a href='profitaccountalldate2.php?page=".($page_number+1)."'>  <strong>Next</strong> </a></i></li>";   
+
+}     
+
+?>
+                </ul></td>
+              </tr>
+            </table>
+        </div>
+        <div class="modal-footer">
           <input name="button" type="submit" id="button4"  class="btn btn-info" onclick="MM_goToURL('parent','profitaccount.php');return document.MM_returnValue" value="Close" />
         </div>
+        
       </div></td>
-      <td width="37">&nbsp;</td>
+      <td width="94">&nbsp;</td>
     </tr>
   </table>
 </form>

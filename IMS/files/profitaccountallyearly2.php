@@ -18,10 +18,7 @@ else {
 
 $transname  = $_SESSION['transname'] ;
 $transtype  = $_SESSION['transtype'] ;
-$monthkeep = $_REQUEST['month1'];
-$yearkeep = $_REQUEST['year1'];
-$_SESSION['monthkeep']  = $monthkeep;
-$_SESSION['yearkeep']  = $yearkeep;
+$yearkeep = $_SESSION['yearkeep'];
 
 $datekeep = date('Y-m-d');
 $datekeep1 = date("jS F, Y", strtotime($datekeep));
@@ -104,11 +101,11 @@ function MM_goToURL() { //v3.0
 <form method="post" id="product_form" action="paymentcheck.php">
   <table width="100%" border="0">
     <tr>
-      <td width="58">&nbsp;</td>
-      <td width="882"><div class="modal-content">
+      <td width="19">&nbsp;</td>
+      <td width="967"><div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title"><i class="fa fa-plus"></i><?php echo $transname ." Profit Analysis" . " for " . $monthkeep . " , " . $yearkeep ; ?></h4>
+          <h4 class="modal-title"><i class="fa fa-plus"></i><?php echo $transname ." Profit Analysis" . " for " . $yearkeep ; ?></h4>
         </div>
         <div class="modal-body">
           <?php
@@ -133,17 +130,17 @@ function MM_goToURL() { //v3.0
 
                          $initial_page = ($page_number-1) * $limit;  
 //$sql = "SELECT agentcode, agentname, agentpassword, agentstatus, date1 FROM gh WHERE ghvalue='0'";
-$sql = "SELECT rid,itemname,itemquantity,amount,itemprice,product_profit,itembaseprice,confirmby,supplydate FROM supply WHERE  month1='$monthkeep' and year1='$yearkeep' and clientid='$clientid'  order by supplydate DESC LIMIT $initial_page, $limit";
+$sql = "SELECT rid,itemname,itemquantity,amount,itemprice,product_profit,itembaseprice,confirmby,supplydate FROM supply WHERE  year1='$yearkeep' and clientid='$clientid'  order by supplydate DESC LIMIT $initial_page, $limit";
 $result = $conn->query($sql);
 //==============
-$sql1="SELECT * FROM supply WHERE  month1='$monthkeep' and year1='$yearkeep' and clientid='$clientid' LIMIT $initial_page, $limit";
+$sql1="SELECT * FROM supply WHERE  year1='$yearkeep' and clientid='$clientid'  LIMIT $initial_page, $limit";
 $result1=mysqli_query($conn,$sql1);
 $count=mysqli_num_rows($result1);
 $_SESSION['totalquantity'] = $count ;
 //$_SESSION['totalrecord'] = $count ;
 //====================get total amount---------
 
-$result5 = mysqli_query($conn,"SELECT SUM(amount) AS value_sum FROM supply WHERE month1='$monthkeep' and year1='$yearkeep' and clientid='$clientid'"); 
+$result5 = mysqli_query($conn,"SELECT SUM(amount) AS value_sum FROM supply WHERE year1='$yearkeep' and clientid='$clientid'"); 
 $row1 = mysqli_fetch_assoc($result5); 
 $sum = $row1['value_sum'];
 $_SESSION['totalamount']  = $sum ;
@@ -151,7 +148,7 @@ $_SESSION['totalamount']  = $sum ;
 //$_SESSION['finalamount']  = $sum ;
 
 //----------------get total profit-----------------
-$result7 = mysqli_query($conn,"SELECT SUM(product_profit) AS value_sum1 FROM supply WHERE month1='$monthkeep' and year1='$yearkeep' and clientid='$clientid'"); 
+$result7 = mysqli_query($conn,"SELECT SUM(product_profit) AS value_sum1 FROM supply WHERE year1='$yearkeep' and clientid='$clientid'"); 
 $row7 = mysqli_fetch_assoc($result7); 
 $sum7 = $row7['value_sum1'];
 $_SESSION['totalprofit']  = $sum7 ;
@@ -189,8 +186,8 @@ echo "<table class='table table-bordered table-striped'><thead><tr><th>S/NO</th>
             <label></label>
           </div>
         </div>
-         <div class="modal-footer">
-          <table width="50%" border="0" cellpadding="4" cellspacing="4" class='table table-bordered table-striped'>
+        <div class="modal-footer">
+         <table width="50%" border="0" cellpadding="4" cellspacing="4" class='table table-bordered table-striped'>
               <tr>
                 <td><strong>Pagination</strong></td>
               </tr>
@@ -198,7 +195,7 @@ echo "<table class='table table-bordered table-striped'><thead><tr><th>S/NO</th>
                 <td><ul>
                     <?php  
 
-$getQuery = "SELECT COUNT(*) FROM supply WHERE  month1='$monthkeep' and year1='$yearkeep' and clientid='$clientid'";     
+$getQuery = "SELECT COUNT(*) FROM supply WHERE  year1='$yearkeep' and clientid='$clientid'";     
 
 $result = mysqli_query($conn, $getQuery);     
 
@@ -216,7 +213,7 @@ $pageURL = "";
 
 if($page_number>=2){   
 
-    echo "<li class='Previous'><a href='profitaccountallmonthly2.php?page=".($page_number-1)."'>  <strong>Prev</strong> </a></li>";   
+    echo "<li class='Previous'><a href='profitaccountallyearly2.php?page=".($page_number-1)."'>  <strong>Prev</strong> </a></li>";   
 
 }                          
 
@@ -224,7 +221,7 @@ for ($i=1; $i<=$total_pages; $i++) {
 
   if ($i == $page_number) {   
 
-      $pageURL .= "<li><a class = 'active' href='profitaccountallmonthly2.php?page="  
+      $pageURL .= "<li><a class = 'active' href='profitaccountallyearly2.php?page="  
 
                                         .$i."'>".$i." </a></li>";   
 
@@ -232,7 +229,7 @@ for ($i=1; $i<=$total_pages; $i++) {
 
   else  {   
 
-      $pageURL .= "<li><a href='profitaccountallmonthly2.php?page=".$i."'>   
+      $pageURL .= "<li><a href='profitaccountallyearly2.php?page=".$i."'>   
 
                                         ".$i." </a></li>";     
 
@@ -244,7 +241,7 @@ echo $pageURL;
 
 if($page_number<$total_pages){   
 
-    echo "<li class='Next'><a href='profitaccountallmonthly2.php?page=".($page_number+1)."'>  <strong>Next</strong> </a></i></li>";   
+    echo "<li class='Next'><a href='profitaccountallyearly2.php?page=".($page_number+1)."'>  <strong>Next</strong> </a></i></li>";   
 
 }     
 
@@ -256,9 +253,9 @@ if($page_number<$total_pages){
         <div class="modal-footer">
           <input name="button" type="submit" id="button4"  class="btn btn-info" onclick="MM_goToURL('parent','profitaccount.php');return document.MM_returnValue" value="Close" />
         </div>
-       
+        
       </div></td>
-      <td width="65">&nbsp;</td>
+      <td width="19">&nbsp;</td>
     </tr>
   </table>
 </form>
