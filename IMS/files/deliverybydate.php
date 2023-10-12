@@ -36,6 +36,31 @@ $datekeep1 = date("jS F, Y", strtotime($datekeep));
 		<link rel="stylesheet" href="css/dataTables.bootstrap.min.css" />
 <script src="js/bootstrap.min.js"></script>
 <link rel="icon" type="image/png" href="images/favicon.png">
+<style>
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #FFFFFF;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111111;
+}
+</style>
 <style type="text/css">
 <!--
 .style11 {
@@ -79,28 +104,49 @@ function MM_goToURL() { //v3.0
 <div class="panel-body">
 <div class="row"></div>
 <form method="post" id="product_form" action="paymentcheck.php">
-  <table width="100%" border="0">
+  <table width="100%" border="0" align="center">
     <tr>
-      <td width="550"><div class="modal-content">
+      <td width="126">&nbsp;</td>
+      <td width="781"><div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title"><i class="fa fa-plus"></i><?php echo "Delivery Report" . " between " . $startdate  . " to " . $enddate; ?></h4>
         </div>
-         <div class="modal-header">
+        <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title"><span class="style1 style11"><a href="delivery_csv1.php">Download CSV</a> | <a href="delivery.php">Menu</a></span></h4>
         </div>
-         <div class="modal-body">
-         <?php
+        <div class="modal-body">
+          <?php
+		  // variable to store number of rows per page
+
+                        $limit = 20;    
+
+                        // update the active page number
+
+                         if (isset($_GET["page"])) {    
+
+                            $page_number  = $_GET["page"];    
+
+                        }    
+
+                        else {    
+
+                        $page_number=1;    
+
+                        }       
+                        // get the initial page number
+
+                         $initial_page = ($page_number-1) * $limit; 
 $startdate = date("Y-m-d", strtotime($_SESSION['startdate']));  
 $enddate = date("Y-m-d", strtotime($_SESSION['enddate'])); 
 
 //$sql = "SELECT agentcode, agentname, agentpassword, agentstatus, date1 FROM gh WHERE ghvalue='0'";
 $sql = "SELECT customer_name,mobile_no,item_name,pickup_location,delivery_location,price,payment_mode,pickup_time
-,delivery_time,date1,confirm_by FROM delivery WHERE  date1 BETWEEN '" . $startdate . "' AND  '" . $enddate . "' and  clientid='$clientid'  order by date1 DESC";
+,delivery_time,date1,confirm_by FROM delivery WHERE  date1 BETWEEN '" . $startdate . "' AND  '" . $enddate . "' and  clientid='$clientid'  order by date1 DESC LIMIT $initial_page, $limit";
 $result = $conn->query($sql);
 //==============
-$sql1="SELECT * FROM delivery WHERE  date1 BETWEEN '" . $startdate . "' AND  '" . $enddate . "' and  clientid='$clientid' ";
+$sql1="SELECT * FROM delivery WHERE  date1 BETWEEN '" . $startdate . "' AND  '" . $enddate . "' and  clientid='$clientid' LIMIT $initial_page, $limit";
 $result1=mysqli_query($conn,$sql1);
 $count=mysqli_num_rows($result1);
 $_SESSION['totalquantity'] = $count ;
@@ -139,16 +185,79 @@ if ($result5->num_rows > 0) {
      echo "0 results";
 }
 ?>
-         </div>
-         <div class="modal-body"><p align = "left"><strong>Total Amount:</strong>  <?php echo $sum ; ?>&nbsp;</p></div>
-                <div class="modal-footer">
-          
+        </div>
+        <div class="modal-body">
+          <p align = "left"><strong>Total Amount:</strong> <?php echo number_format($sum,2) ; ?>&nbsp;</p>
+        </div>
+        <div class="modal-footer">
+          <table width="50%" border="0" cellpadding="4" cellspacing="4" class='table table-bordered table-striped'>
+              <tr>
+                <td><div align="left"><strong>Pagination</strong></div></td>
+              </tr>
+              <tr>
+                <td><ul>
+                    <?php  
+
+$getQuery = "SELECT COUNT(*) FROM delivery WHERE  date1 BETWEEN '" . $startdate . "' AND  '" . $enddate . "' and  clientid='$clientid'";     
+
+$result = mysqli_query($conn, $getQuery);     
+
+$row = mysqli_fetch_row($result);     
+
+$total_rows = $row[0];              
+
+echo "</br>";            
+
+// get the required number of pages
+
+$total_pages = ceil($total_rows / $limit);     
+
+$pageURL = "";             
+
+if($page_number>=2){   
+
+    echo "<li class='Previous'><a href='deliverybydate.php?page=".($page_number-1)."'>  <strong>Prev</strong> </a></li>";   
+
+}                          
+
+for ($i=1; $i<=$total_pages; $i++) {   
+
+  if ($i == $page_number) {   
+
+      $pageURL .= "<li><a class = 'active' href='deliverybydate.php?page="  
+
+                                        .$i."'>".$i." </a></li>";   
+
+  }               
+
+  else  {   
+
+      $pageURL .= "<li><a href='deliverybydate.php?page=".$i."'>   
+
+                                        ".$i." </a></li>";     
+
+  }   
+
+};     
+
+echo $pageURL;    
+
+if($page_number<$total_pages){   
+
+    echo "<li class='Next'><a href='deliverybydate.php?page=".($page_number+1)."'>  <strong>Next</strong> </a></i></li>";   
+
+}     
+
+?>
+                </ul></td>
+              </tr>
+            </table>
+        </div>
+        <div class="modal-footer">
           <input name="button" type="submit" id="button4"  class="btn btn-info" onclick="MM_goToURL('parent','delivery.php');return document.MM_returnValue" value="Close" />
         </div>
       </div></td>
-      
-      
-      <td width="37">&nbsp;</td>
+      <td width="98">&nbsp;</td>
     </tr>
   </table>
 </form>
